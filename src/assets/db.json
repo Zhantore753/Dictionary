@@ -1,0 +1,134 @@
+{
+  "modes": [
+    {
+      "src": "assets/img/1.jpg",
+      "title": "Сложение/Вычетание",
+      "link": "sum.html"
+    },
+    {
+      "src": "assets/img/2.jpg",
+      "title": "Умножение",
+      "link": "umnoj.html"
+    },
+    {
+      "src": "assets/img/3.jpg",
+      "title": "Деление",
+      "link": "delen.html"
+    },
+    {
+      "src": "assets/img/4.jpg",
+      "title": "Выражение",
+      "link": "uravn.html"
+    }
+  ],
+  "auth": [
+    {
+      "name": "Zhantore",
+      "login": "Zhanik",
+      "password": "password123",
+      "id": 1
+    },
+    {
+      "name": "Injumarjan",
+      "login": "Inju",
+      "password": "password456",
+      "id": 2
+    },
+    {
+      "name": "Жанторе",
+      "login": "Zhantore",
+      "password": "myPassword",
+      "id": 3
+    },
+    {
+      "name": "asdasdasd",
+      "login": "asdasdasdasd",
+      "password": "asdasdasdasd",
+      "id": 4
+    },
+    {
+      "name": "ZhaNik",
+      "login": "Zhantore",
+      "password": "123456789",
+      "id": 5
+    },
+    {
+      "name": "Рахымжан",
+      "login": "Rahat",
+      "password": "rahat",
+      "id": 6
+    },
+    {
+      "name": "Тест",
+      "login": "test",
+      "password": "test",
+      "id": 7
+    }
+  ],
+  "results": [
+    {
+      "mode": "Выражения",
+      "name": "Zhanik",
+      "points": "5",
+      "time": "100",
+      "eff": "5%",
+      "id": 1
+    },
+    {
+      "mode": "Выражения",
+      "name": "Zhantore",
+      "points": "1",
+      "time": "4",
+      "eff": "25%",
+      "id": 2
+    },
+    {
+      "mode": "Выржения",
+      "name": "Zhantore",
+      "points": "3",
+      "time": "17",
+      "eff": "17.647%",
+      "id": 3
+    },
+    {
+      "mode": "Сложения/Вычетания",
+      "name": "Zhantore",
+      "points": "4",
+      "time": "18",
+      "eff": "22.222%",
+      "id": 4
+    },
+    {
+      "mode": "Умножения",
+      "name": "Zhantore",
+      "points": "3",
+      "time": "13",
+      "eff": "23.077%",
+      "id": 5
+    },
+    {
+      "mode": "Деления",
+      "name": "Zhantore",
+      "points": "3",
+      "time": "12",
+      "eff": "25%",
+      "id": 6
+    },
+    {
+      "mode": "Умножения",
+      "name": "Zhantore",
+      "points": "4",
+      "time": "30",
+      "eff": "13.333%",
+      "id": 7
+    },
+    {
+      "mode": "Сложения/Вычетания",
+      "name": "Рахымжан",
+      "points": "7",
+      "time": "24",
+      "eff": "29.166999999999998%",
+      "id": 8
+    }
+  ]
+}
