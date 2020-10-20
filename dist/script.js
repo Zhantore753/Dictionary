@@ -3536,10 +3536,48 @@ module.exports = g;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_table__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/table */ "./src/js/modules/table.js");
+/* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/modal */ "./src/js/modules/modal.js");
+
 
 window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_table__WEBPACK_IMPORTED_MODULE_0__["default"])('tbody');
+  Object(_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])('.add-word', '.modal-add');
 });
+
+/***/ }),
+
+/***/ "./src/js/modules/modal.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/modal.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var modal = function modal(trigger, _modal) {
+  try {
+    var btn = document.querySelector(trigger),
+        thisModal = document.querySelector(_modal);
+    btn.addEventListener('click', function (e) {
+      // e.preventDefault();
+      thisModal.classList.add('show');
+      thisModal.style.display = 'block';
+    });
+    thisModal.querySelectorAll('.close-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        thisModal.classList.remove('show');
+        thisModal.style.display = 'none';
+      });
+    });
+  } catch (e) {}
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (modal);
 
 /***/ }),
 
