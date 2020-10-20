@@ -7,7 +7,73 @@
   <title>Document</title>
 </head>
 <body>
-  
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Главная</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Добавить слово</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Проверить себя</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Поиск слова" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <section class="main">
+    <div class="container">
+      <div class="main-head text-center">
+        <h2 class="total">Общие количество слов: 5000</h2>
+      </div>
+      <div class="main-body">
+        <table class="table table-dark">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Английский</th>
+              <th scope="col">Русский</th>
+              <th scope="col">Google</th>
+              <th scope="col">Яндекс</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>add</td>
+              <td>Добавить</td>
+              <td><a target="_blank" href="https://translate.google.com/?hl=ru#view=home&op=translate&sl=en&tl=ru&text=add">Google</a></td>
+              <td><a target="_blank" href="https://translate.yandex.kz/?ui=ru&lang=en-ru&text=add">Яндекс</a></td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>remove</td>
+              <td>Удалить</td>
+              <td><a target="_blank" href="https://translate.google.com/?hl=ru#view=home&op=translate&sl=en&tl=ru&text=remove">Google</a></td>
+              <td><a target="_blank" href="https://translate.yandex.kz/?ui=ru&lang=en-ru&text=remove">Яндекс</a></td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>show</td>
+              <td>Показать</td>
+              <td><a target="_blank" href="https://translate.google.com/?hl=ru#view=home&op=translate&sl=en&tl=ru&text=show">Google</a></td>
+              <td><a target="_blank" href="https://translate.yandex.kz/?ui=ru&lang=en-ru&text=show">Яндекс</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
   <script src="script.js"></script>
 </body>
 </html>
