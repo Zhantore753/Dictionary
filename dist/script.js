@@ -4254,7 +4254,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var table = function table(wrapper) {
   try {
-    var allSum;
+    var allSum,
+        arr = [];
     Object(_services_requests__WEBPACK_IMPORTED_MODULE_2__["getResource"])('http://localhost:3000/dictionary').then(function (res) {
       return createCards(res);
     }).catch(function (error) {
@@ -4266,11 +4267,23 @@ var table = function table(wrapper) {
         var en = _ref.en,
             ru = _ref.ru,
             id = _ref.id;
-        document.querySelector('.total').textContent = "\u041E\u0431\u0449\u0438\u0435 \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0441\u043B\u043E\u0432: ".concat(id);
-        var row = document.createElement('tr');
-        row.innerHTML = "\n                    <th scope=\"row\">".concat(id, "</th>\n                    <td>").concat(en, "</td>\n                    <td>").concat(ru, "</td>\n                    <td><a target=\"_blank\" href=\"https://translate.google.com/?hl=ru#view=home&op=translate&sl=en&tl=ru&text=").concat(en, "\">Google</a></td>\n                    <td><a target=\"_blank\" href=\"https://translate.yandex.kz/?ui=ru&lang=en-ru&text=").concat(en, "\">\u042F\u043D\u0434\u0435\u043A\u0441</a></td>\n            ");
-        document.querySelector(wrapper).appendChild(row);
+        var object = {
+          'id': id,
+          'en': en,
+          'ru': ru
+        };
+        arr.push(object);
       });
+      document.querySelector('.total').textContent = "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0441\u043B\u043E\u0432: ".concat(arr.length);
+      arr.forEach(function (obj) {
+        updateTable(obj);
+      });
+    }
+
+    function updateTable(obj) {
+      var row = document.createElement('tr');
+      row.innerHTML = "\n                <th scope=\"row\">".concat(obj.id, "</th>\n                <td>").concat(obj.en, "</td>\n                <td>").concat(obj.ru, "</td>\n                <td><a target=\"_blank\" href=\"https://translate.google.com/?hl=ru#view=home&op=translate&sl=en&tl=ru&text=").concat(obj.en, "\">Google</a></td>\n                <td><a target=\"_blank\" href=\"https://translate.yandex.kz/?ui=ru&lang=en-ru&text=").concat(obj.en, "\">\u042F\u043D\u0434\u0435\u043A\u0441</a></td>\n            ");
+      document.querySelector(wrapper).appendChild(row);
     }
   } catch (e) {}
 };
