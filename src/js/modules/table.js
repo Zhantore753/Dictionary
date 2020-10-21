@@ -4,6 +4,7 @@ import {
 
 const table = (wrapper) => {
     try {
+        let allSum;
         getResource('http://localhost:3000/dictionary')
             .then(res => createCards(res))
             .catch(error => console.log(error));
@@ -14,8 +15,9 @@ const table = (wrapper) => {
                 ru,
                 id
             }) => {
+                document.querySelector('.total').textContent = `Общие количество слов: ${id}`
                 let row = document.createElement('tr');
-
+                
                 row.innerHTML = `
                     <th scope="row">${id}</th>
                     <td>${en}</td>
@@ -23,7 +25,7 @@ const table = (wrapper) => {
                     <td><a target="_blank" href="https://translate.google.com/?hl=ru#view=home&op=translate&sl=en&tl=ru&text=${en}">Google</a></td>
                     <td><a target="_blank" href="https://translate.yandex.kz/?ui=ru&lang=en-ru&text=${en}">Яндекс</a></td>
             `;
-
+                
                 document.querySelector(wrapper).appendChild(row);
             });
         }
