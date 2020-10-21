@@ -2797,6 +2797,63 @@ addToUnscopables('entries');
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/es.array.slice.js":
+/*!********************************************************!*\
+  !*** ./node_modules/core-js/modules/es.array.slice.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var isObject = __webpack_require__(/*! ../internals/is-object */ "./node_modules/core-js/internals/is-object.js");
+var isArray = __webpack_require__(/*! ../internals/is-array */ "./node_modules/core-js/internals/is-array.js");
+var toAbsoluteIndex = __webpack_require__(/*! ../internals/to-absolute-index */ "./node_modules/core-js/internals/to-absolute-index.js");
+var toLength = __webpack_require__(/*! ../internals/to-length */ "./node_modules/core-js/internals/to-length.js");
+var toIndexedObject = __webpack_require__(/*! ../internals/to-indexed-object */ "./node_modules/core-js/internals/to-indexed-object.js");
+var createProperty = __webpack_require__(/*! ../internals/create-property */ "./node_modules/core-js/internals/create-property.js");
+var arrayMethodHasSpeciesSupport = __webpack_require__(/*! ../internals/array-method-has-species-support */ "./node_modules/core-js/internals/array-method-has-species-support.js");
+var wellKnownSymbol = __webpack_require__(/*! ../internals/well-known-symbol */ "./node_modules/core-js/internals/well-known-symbol.js");
+
+var SPECIES = wellKnownSymbol('species');
+var nativeSlice = [].slice;
+var max = Math.max;
+
+// `Array.prototype.slice` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.slice
+// fallback for not array-like ES3 strings and DOM objects
+$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('slice') }, {
+  slice: function slice(start, end) {
+    var O = toIndexedObject(this);
+    var length = toLength(O.length);
+    var k = toAbsoluteIndex(start, length);
+    var fin = toAbsoluteIndex(end === undefined ? length : end, length);
+    // inline `ArraySpeciesCreate` for usage native `Array#slice` where it's possible
+    var Constructor, result, n;
+    if (isArray(O)) {
+      Constructor = O.constructor;
+      // cross-realm fallback
+      if (typeof Constructor == 'function' && (Constructor === Array || isArray(Constructor.prototype))) {
+        Constructor = undefined;
+      } else if (isObject(Constructor)) {
+        Constructor = Constructor[SPECIES];
+        if (Constructor === null) Constructor = undefined;
+      }
+      if (Constructor === Array || Constructor === undefined) {
+        return nativeSlice.call(O, k, fin);
+      }
+    }
+    result = new (Constructor === undefined ? Array : Constructor)(max(fin - k, 0));
+    for (n = 0; k < fin; k++, n++) if (k in O) createProperty(result, n, O[k]);
+    result.length = n;
+    return result;
+  }
+});
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/es.object.from-entries.js":
 /*!****************************************************************!*\
   !*** ./node_modules/core-js/modules/es.object.from-entries.js ***!
@@ -4245,18 +4302,22 @@ var modal = function modal(trigger, _modal) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.concat */ "./node_modules/core-js/modules/es.array.concat.js");
 /* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
+/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.array.slice */ "./node_modules/core-js/modules/es.array.slice.js");
+/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
+
 
 
 
 
 var table = function table(wrapper) {
   try {
-    var allSum,
+    var firstArr = [],
+        searchArr = [],
         arr = [];
-    Object(_services_requests__WEBPACK_IMPORTED_MODULE_2__["getResource"])('http://localhost:3000/dictionary').then(function (res) {
+    Object(_services_requests__WEBPACK_IMPORTED_MODULE_3__["getResource"])('http://localhost:3000/dictionary').then(function (res) {
       return createCards(res);
     }).catch(function (error) {
       return console.log(error);
@@ -4273,12 +4334,74 @@ var table = function table(wrapper) {
           'ru': ru
         };
         arr.push(object);
+        firstArr.push(object);
       });
       document.querySelector('.total').textContent = "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0441\u043B\u043E\u0432: ".concat(arr.length);
+      document.querySelector(wrapper).innerHTML = '';
       arr.forEach(function (obj) {
         updateTable(obj);
       });
     }
+
+    document.querySelector('.btn-search').addEventListener('click', function (e) {
+      e.preventDefault();
+      var input = document.querySelector('.search'),
+          length = input.value.length,
+          value = input.value;
+
+      for (var i = 0; i < arr.length; i++) {
+        var calcEnSlice = arr[i].en.length - length,
+            calcRuSlice = arr[i].ru.length - length,
+            checker = false;
+
+        if (calcEnSlice >= 0) {
+          var en = arr[i].en;
+
+          if (calcEnSlice !== 0) {
+            en = arr[i].en.slice(0, -calcEnSlice);
+          }
+
+          if (en == value) {
+            checker = checker || true;
+          } else {
+            checker = checker || false;
+          }
+
+          console.log(checker);
+        }
+
+        if (calcRuSlice >= 0) {
+          var ru = arr[i].ru;
+
+          if (calcRuSlice !== 0) {
+            ru = arr[i].ru.slice(0, -calcRuSlice);
+          }
+
+          if (ru == value) {
+            checker = checker || true;
+          } else {
+            checker = checker || false;
+          }
+
+          console.log(checker);
+        }
+
+        if (checker) {
+          searchArr.push(arr[i]);
+        }
+      }
+
+      ;
+      document.querySelector('.total').textContent = "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0441\u043B\u043E\u0432: ".concat(searchArr.length);
+      document.querySelector(wrapper).innerHTML = '';
+      searchArr.forEach(function (obj) {
+        updateTable(obj);
+      });
+      console.log(arr);
+      console.log(searchArr);
+      console.log(input.value.length);
+    });
+    console.log("13:45 PM".slice(0, -3));
 
     function updateTable(obj) {
       var row = document.createElement('tr');
