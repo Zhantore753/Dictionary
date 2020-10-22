@@ -9,7 +9,6 @@ const addWord = () => {
     const enWord = document.querySelector('[name="en"]'),
         ruWord = document.querySelector('[name="ru"]'),
         wrap = document.querySelector('.modal-wrap');
-    console.log(firstArr);
     let available = true;
     const forms = document.querySelectorAll('.add-word');
 
@@ -22,12 +21,13 @@ const addWord = () => {
             e.preventDefault();
 
             firstArr.forEach(obj=>{
+                console.log(obj)
                 if(enWord.value.toLowerCase() == obj.en.toLowerCase()){
                     available = false;
                 }
             });
 
-            const result = document.createElement('h3');
+            const result = document.createElement('h4');
             result.classList.add('text-center');
             
             if(available){

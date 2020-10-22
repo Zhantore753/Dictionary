@@ -4190,12 +4190,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_table__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/table */ "./src/js/modules/table.js");
 /* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/modal */ "./src/js/modules/modal.js");
 /* harmony import */ var _modules_addWord__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/addWord */ "./src/js/modules/addWord.js");
+/* harmony import */ var _modules_test__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/test */ "./src/js/modules/test.js");
+
 
 
 
 window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_table__WEBPACK_IMPORTED_MODULE_0__["table"])('tbody');
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])('.add-word', '.modal-add');
+  Object(_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])('.test-btn', '.modal-test');
+  Object(_modules_test__WEBPACK_IMPORTED_MODULE_3__["default"])();
   Object(_modules_addWord__WEBPACK_IMPORTED_MODULE_2__["default"])();
 });
 
@@ -4240,7 +4244,6 @@ var addWord = function addWord() {
   var enWord = document.querySelector('[name="en"]'),
       ruWord = document.querySelector('[name="ru"]'),
       wrap = document.querySelector('.modal-wrap');
-  console.log(_table__WEBPACK_IMPORTED_MODULE_8__["firstArr"]);
   var available = true;
   var forms = document.querySelectorAll('.add-word');
   forms.forEach(function (form) {
@@ -4251,11 +4254,13 @@ var addWord = function addWord() {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       _table__WEBPACK_IMPORTED_MODULE_8__["firstArr"].forEach(function (obj) {
+        console.log(obj);
+
         if (enWord.value.toLowerCase() == obj.en.toLowerCase()) {
           available = false;
         }
       });
-      var result = document.createElement('h3');
+      var result = document.createElement('h4');
       result.classList.add('text-center');
 
       if (available) {
@@ -4443,6 +4448,148 @@ var table = function table(wrapper) {
 
 
 
+
+/***/ }),
+
+/***/ "./src/js/modules/test.js":
+/*!********************************!*\
+  !*** ./src/js/modules/test.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _table__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./table */ "./src/js/modules/table.js");
+
+
+var test = function test() {
+  var words = [];
+  var btnStart = document.querySelector('.btn-start'),
+      btnNext = document.querySelector('.btn-next'),
+      testEn = document.querySelector('.test-en'),
+      testRu = document.querySelector('.test-ru'),
+      testAmount = document.querySelector('.test-amount'),
+      btnCheck = document.querySelector('.btn-check'),
+      wrapTest = document.querySelector('.modal-wrap__test');
+  var now,
+      lang,
+      timeout,
+      result = document.createElement('h4');
+  result.classList.add('text-center');
+  btnStart.addEventListener('click', function (e) {
+    e.preventDefault();
+
+    for (var i = 0; i < 20; i++) {
+      var word = getRandomBetween(0, _table__WEBPACK_IMPORTED_MODULE_0__["firstArr"].length - 1);
+      words.push(_table__WEBPACK_IMPORTED_MODULE_0__["firstArr"][word]);
+    }
+
+    btnStart.style.display = 'none';
+    btnCheck.style.display = '';
+    updateTest();
+    lang = getRandomBetween(0, 1);
+    now = words.shift();
+    updateTest();
+
+    if (lang == 0) {
+      testEn.value = now.en;
+      testEn.setAttribute('readonly', true);
+    } else {
+      testRu.value = now.ru;
+      testRu.setAttribute('readonly', true);
+    }
+  });
+  btnNext.addEventListener('click', function (e) {
+    if (words.length == 0) {
+      result.textContent = 'Тест завершен!';
+      result.style.color = 'green';
+      timeout = setTimeout(function () {
+        result.remove();
+      }, 5000);
+      btnStart.style.display = '';
+      btnCheck.style.display = 'none';
+      btnNext.style.display = 'none';
+    } else {
+      e.preventDefault();
+      btnCheck.style.display = 'block';
+      btnNext.style.display = 'none';
+      lang = getRandomBetween(0, 1);
+      now = words.shift();
+      updateTest();
+
+      if (lang == 0) {
+        testEn.value = now.en;
+        testEn.setAttribute('readonly', true);
+      } else {
+        testRu.value = now.ru;
+        testRu.setAttribute('readonly', true);
+      }
+
+      if (timeout) {
+        clearTimeout(timeout);
+        result.remove();
+      }
+    }
+  });
+  btnCheck.addEventListener('click', function (e) {
+    e.preventDefault();
+    var checker = false;
+
+    if (lang == 0) {
+      if (now.ru.toLowerCase() == testRu.value.toLowerCase()) {
+        checker = true;
+      } else {
+        checker = false;
+      }
+    } else {
+      if (now.en.toLowerCase() == testEn.value.toLowerCase()) {
+        checker = true;
+      } else {
+        checker = false;
+      }
+    }
+
+    if (checker == false) {
+      words.push(now);
+      result.textContent = 'Ошибка! Ну как так-то?';
+      result.style.color = 'red';
+    } else {
+      now = '';
+      result.textContent = 'Все верно!';
+      result.style.color = 'green';
+    }
+
+    wrapTest.appendChild(result);
+    timeout = setTimeout(function () {
+      result.remove();
+    }, 2000);
+    btnCheck.style.display = 'none';
+    btnNext.style.display = 'block';
+  });
+
+  function updateTest() {
+    testAmount.textContent = "\u041E\u0441\u0442\u0430\u043B\u043E\u0441\u044C ".concat(words.length + 1, "/20");
+    testEn.value = '';
+    testRu.value = '';
+
+    if (testEn.getAttribute('readonly')) {
+      testEn.removeAttribute('readonly');
+    }
+
+    if (testRu.getAttribute('readonly')) {
+      testRu.removeAttribute('readonly');
+    }
+  }
+
+  ;
+
+  function getRandomBetween(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (test);
 
 /***/ }),
 

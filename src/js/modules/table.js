@@ -2,7 +2,7 @@ import {
     getResource
 } from '../services/requests';
 
-let firstArr = [];
+const firstArr = [];
 const table = (wrapper) => {
         let searchArr = [],
             arr = [];

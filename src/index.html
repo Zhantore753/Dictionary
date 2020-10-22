@@ -20,7 +20,7 @@
             <a class="nav-link add-word" href="#">Добавить слово</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Проверить себя</a>
+            <a class="nav-link test-btn" href="#">Проверить себя</a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -78,6 +78,42 @@
                 Записать слово
               </button>
             </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Закрыть</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade modal-test" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Тест</h5>
+            <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="text-center test-amount d-block">Осталось 20/20</div>
+          <div class="modal-body modal-wrap__test">
+              <div class="form-group">
+                <label>Английский</label>
+                <input class="form-control test-en" />
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Русский</label>
+                <input class="form-control test-ru" />
+              </div>
+              <button type="button" class="btn btn-primary btn-start">
+                Старт
+              </button>
+              <button type="button" class="btn btn-primary btn-next" style="display: none;">
+                Дальше
+              </button>
+              <button type="button" class="btn btn-success btn-check" style="display: none;">
+                Проверить
+              </button>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Закрыть</button>
