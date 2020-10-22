@@ -20,6 +20,10 @@ const addWord = () => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
+            if(enWord.value == '' && ruWord.value == ''){
+                available = false;
+            }
+
             firstArr.forEach(obj=>{
                 console.log(obj)
                 if(enWord.value.toLowerCase() == obj.en.toLowerCase()){

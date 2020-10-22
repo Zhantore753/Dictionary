@@ -80,12 +80,14 @@ const test = () => {
                 checker = true;
             } else {
                 checker = false;
+                testRu.value = now.ru;
             }
         }else{
             if(now.en.toLowerCase() == testEn.value.toLowerCase()){
                 checker = true;
             } else {
                 checker = false;
+                testEn.value = now.en;
             }
         }
 

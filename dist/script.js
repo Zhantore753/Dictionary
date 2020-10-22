@@ -4253,6 +4253,11 @@ var addWord = function addWord() {
   function submitData(form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+
+      if (enWord.value == '' && ruWord.value == '') {
+        available = false;
+      }
+
       _table__WEBPACK_IMPORTED_MODULE_8__["firstArr"].forEach(function (obj) {
         console.log(obj);
 
@@ -4541,12 +4546,14 @@ var test = function test() {
         checker = true;
       } else {
         checker = false;
+        testRu.value = now.ru;
       }
     } else {
       if (now.en.toLowerCase() == testEn.value.toLowerCase()) {
         checker = true;
       } else {
         checker = false;
+        testEn.value = now.en;
       }
     }
 
