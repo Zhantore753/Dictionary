@@ -4313,102 +4313,99 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var table = function table(wrapper) {
-  try {
-    var firstArr = [],
-        searchArr = [],
-        arr = [];
-    Object(_services_requests__WEBPACK_IMPORTED_MODULE_3__["getResource"])('http://localhost:3000/dictionary').then(function (res) {
-      return createCards(res);
-    }).catch(function (error) {
-      return console.log(error);
+  var firstArr = [],
+      searchArr = [],
+      arr = [];
+  Object(_services_requests__WEBPACK_IMPORTED_MODULE_3__["getResource"])('http://localhost:3000/dictionary').then(function (res) {
+    return createCards(res);
+  }).catch(function (error) {
+    return console.log(error);
+  });
+
+  function createCards(response) {
+    response.forEach(function (_ref) {
+      var en = _ref.en,
+          ru = _ref.ru,
+          id = _ref.id;
+      var object = {
+        'id': id,
+        'en': en,
+        'ru': ru
+      };
+      arr.push(object);
+      firstArr.push(object);
     });
+    document.querySelector('.total').textContent = "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0441\u043B\u043E\u0432: ".concat(arr.length);
+    document.querySelector(wrapper).innerHTML = '';
+    arr.forEach(function (obj) {
+      updateTable(obj);
+    });
+  }
 
-    function createCards(response) {
-      response.forEach(function (_ref) {
-        var en = _ref.en,
-            ru = _ref.ru,
-            id = _ref.id;
-        var object = {
-          'id': id,
-          'en': en,
-          'ru': ru
-        };
-        arr.push(object);
-        firstArr.push(object);
-      });
-      document.querySelector('.total').textContent = "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0441\u043B\u043E\u0432: ".concat(arr.length);
-      document.querySelector(wrapper).innerHTML = '';
-      arr.forEach(function (obj) {
-        updateTable(obj);
-      });
-    }
+  document.querySelector('.btn-search').addEventListener('click', function (e) {
+    e.preventDefault();
+    var input = document.querySelector('.search'),
+        length = input.value.length,
+        value = input.value.toLowerCase();
 
-    document.querySelector('.btn-search').addEventListener('click', function (e) {
-      e.preventDefault();
-      var input = document.querySelector('.search'),
-          length = input.value.length,
-          value = input.value;
+    for (var i = 0; i < arr.length; i++) {
+      var calcEnSlice = arr[i].en.length - length,
+          calcRuSlice = arr[i].ru.length - length,
+          checker = false;
 
-      for (var i = 0; i < arr.length; i++) {
-        var calcEnSlice = arr[i].en.length - length,
-            calcRuSlice = arr[i].ru.length - length,
-            checker = false;
+      if (calcEnSlice >= 0) {
+        var en = arr[i].en;
 
-        if (calcEnSlice >= 0) {
-          var en = arr[i].en;
-
-          if (calcEnSlice !== 0) {
-            en = arr[i].en.slice(0, -calcEnSlice);
-          }
-
-          if (en == value) {
-            checker = checker || true;
-          } else {
-            checker = checker || false;
-          }
-
-          console.log(checker);
+        if (calcEnSlice !== 0) {
+          en = arr[i].en.slice(0, -calcEnSlice);
         }
 
-        if (calcRuSlice >= 0) {
-          var ru = arr[i].ru;
-
-          if (calcRuSlice !== 0) {
-            ru = arr[i].ru.slice(0, -calcRuSlice);
-          }
-
-          if (ru == value) {
-            checker = checker || true;
-          } else {
-            checker = checker || false;
-          }
-
-          console.log(checker);
+        if (en.toLowerCase() == value) {
+          checker = checker || true;
+        } else {
+          checker = checker || false;
         }
 
-        if (checker) {
-          searchArr.push(arr[i]);
-        }
+        console.log(checker);
       }
 
-      ;
-      document.querySelector('.total').textContent = "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0441\u043B\u043E\u0432: ".concat(searchArr.length);
-      document.querySelector(wrapper).innerHTML = '';
-      searchArr.forEach(function (obj) {
-        updateTable(obj);
-      });
-      console.log(arr);
-      console.log(searchArr);
-      console.log(input.value.length);
-    });
-    console.log("13:45 PM".slice(0, -3));
+      if (calcRuSlice >= 0) {
+        var ru = arr[i].ru;
 
-    function updateTable(obj) {
-      var row = document.createElement('tr');
-      row.innerHTML = "\n                <th scope=\"row\">".concat(obj.id, "</th>\n                <td>").concat(obj.en, "</td>\n                <td>").concat(obj.ru, "</td>\n                <td><a target=\"_blank\" href=\"https://translate.google.com/?hl=ru#view=home&op=translate&sl=en&tl=ru&text=").concat(obj.en, "\">Google</a></td>\n                <td><a target=\"_blank\" href=\"https://translate.yandex.kz/?ui=ru&lang=en-ru&text=").concat(obj.en, "\">\u042F\u043D\u0434\u0435\u043A\u0441</a></td>\n            ");
-      document.querySelector(wrapper).appendChild(row);
+        if (calcRuSlice !== 0) {
+          ru = arr[i].ru.slice(0, -calcRuSlice);
+        }
+
+        if (ru.toLowerCase() == value) {
+          checker = checker || true;
+        } else {
+          checker = checker || false;
+        }
+
+        console.log(checker);
+      }
+
+      if (checker) {
+        searchArr.push(arr[i]);
+      }
     }
-  } catch (e) {}
+
+    ;
+    document.querySelector('.total').textContent = "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0441\u043B\u043E\u0432: ".concat(searchArr.length);
+    document.querySelector(wrapper).innerHTML = '';
+    searchArr.forEach(function (obj) {
+      updateTable(obj);
+    });
+    console.log(arr);
+    console.log(searchArr);
+    console.log(input.value.length);
+  });
+
+  function updateTable(obj) {
+    var row = document.createElement('tr');
+    row.innerHTML = "\n                <th scope=\"row\">".concat(obj.id, "</th>\n                <td>").concat(obj.en, "</td>\n                <td>").concat(obj.ru, "</td>\n                <td><a target=\"_blank\" href=\"https://translate.google.com/?hl=ru#view=home&op=translate&sl=en&tl=ru&text=").concat(obj.en, "\">Google</a></td>\n                <td><a target=\"_blank\" href=\"https://translate.yandex.kz/?ui=ru&lang=en-ru&text=").concat(obj.en, "\">\u042F\u043D\u0434\u0435\u043A\u0441</a></td>\n            ");
+    document.querySelector(wrapper).appendChild(row);
+  }
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (table);

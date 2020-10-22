@@ -3,7 +3,6 @@ import {
 } from '../services/requests';
 
 const table = (wrapper) => {
-    try {
         let firstArr = [],
             searchArr = [],
             arr = [];
@@ -37,7 +36,7 @@ const table = (wrapper) => {
             e.preventDefault();
             let input = document.querySelector('.search'),
                 length = input.value.length,
-                value = input.value;
+                value = input.value.toLowerCase();
             for(let i = 0; i < arr.length; i++){
                 let calcEnSlice = arr[i].en.length - length,
                     calcRuSlice = arr[i].ru.length - length,
@@ -47,7 +46,7 @@ const table = (wrapper) => {
                         if(calcEnSlice !== 0){
                             en = arr[i].en.slice(0, -calcEnSlice);
                         }
-                        if(en == value){
+                        if(en.toLowerCase() == value){
                             checker = checker || true;
                         } else{
                             checker = checker || false;
@@ -59,7 +58,7 @@ const table = (wrapper) => {
                         if(calcRuSlice !== 0){
                             ru = arr[i].ru.slice(0, -calcRuSlice);
                         }
-                        if(ru == value){
+                        if(ru.toLowerCase() == value){
                             checker = checker || true;
                         } else{
                             checker = checker || false;
@@ -80,8 +79,6 @@ const table = (wrapper) => {
             console.log(input.value.length);
         });
 
-        console.log("13:45 PM".slice(0, -3));
-
         function updateTable(obj){
 
             let row = document.createElement('tr');
@@ -96,7 +93,6 @@ const table = (wrapper) => {
 
             document.querySelector(wrapper).appendChild(row);
         }
-    } catch (e) {}
 };
 
 export default table;
