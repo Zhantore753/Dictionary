@@ -4194,7 +4194,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 window.addEventListener('DOMContentLoaded', function () {
-  Object(_modules_table__WEBPACK_IMPORTED_MODULE_0__["default"])('tbody');
+  Object(_modules_table__WEBPACK_IMPORTED_MODULE_0__["table"])('tbody');
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])('.add-word', '.modal-add');
   Object(_modules_addWord__WEBPACK_IMPORTED_MODULE_2__["default"])();
 });
@@ -4225,6 +4225,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
 /* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
+/* harmony import */ var _table__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./table */ "./src/js/modules/table.js");
+
 
 
 
@@ -4235,6 +4237,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var addWord = function addWord() {
+  var enWord = document.querySelector('[name="en"]'),
+      ruWord = document.querySelector('[name="ru"]'),
+      wrap = document.querySelector('.modal-wrap');
+  console.log(_table__WEBPACK_IMPORTED_MODULE_8__["firstArr"]);
+  var available = true;
   var forms = document.querySelectorAll('.add-word');
   forms.forEach(function (form) {
     submitData(form);
@@ -4243,11 +4250,35 @@ var addWord = function addWord() {
   function submitData(form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var formData = new FormData(form);
-      var json = JSON.stringify(Object.fromEntries(formData.entries()));
-      Object(_services_requests__WEBPACK_IMPORTED_MODULE_7__["postData"])('http://localhost:3000/dictionary', json).then(function (res) {}).catch(function () {
-        console.log("error");
-      }).finally(function () {});
+      _table__WEBPACK_IMPORTED_MODULE_8__["firstArr"].forEach(function (obj) {
+        if (enWord.value.toLowerCase() == obj.en.toLowerCase()) {
+          available = false;
+        }
+      });
+      var result = document.createElement('h3');
+      result.classList.add('text-center');
+
+      if (available) {
+        var formData = new FormData(form);
+        var json = JSON.stringify(Object.fromEntries(formData.entries()));
+        Object(_services_requests__WEBPACK_IMPORTED_MODULE_7__["postData"])('http://localhost:3000/dictionary', json).then(function (res) {
+          result.textContent = 'Слово добавлено!';
+          result.style.color = 'green';
+        }).catch(function () {
+          result.textContent = 'Упсс, проблемы с сервером!';
+          result.style.color = 'red';
+        }).finally(function () {
+          wrap.appendChild(result);
+        });
+      } else {
+        result.textContent = 'Упсс, кажется такое слово уже есть...';
+        result.style.color = 'red';
+        wrap.appendChild(result);
+      }
+
+      setTimeout(function () {
+        result.remove();
+      }, 2000);
     });
   }
 };
@@ -4295,11 +4326,13 @@ var modal = function modal(trigger, _modal) {
 /*!*********************************!*\
   !*** ./src/js/modules/table.js ***!
   \*********************************/
-/*! exports provided: default */
+/*! exports provided: table, firstArr */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "table", function() { return table; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "firstArr", function() { return firstArr; });
 /* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.concat */ "./node_modules/core-js/modules/es.array.concat.js");
 /* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.array.slice */ "./node_modules/core-js/modules/es.array.slice.js");
@@ -4311,10 +4344,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var firstArr = [];
 
 var table = function table(wrapper) {
-  var firstArr = [],
-      searchArr = [],
+  var searchArr = [],
       arr = [];
   Object(_services_requests__WEBPACK_IMPORTED_MODULE_3__["getResource"])('http://localhost:3000/dictionary').then(function (res) {
     return createCards(res);
@@ -4408,7 +4441,8 @@ var table = function table(wrapper) {
   }
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (table);
+
+
 
 /***/ }),
 

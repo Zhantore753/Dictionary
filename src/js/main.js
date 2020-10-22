@@ -1,4 +1,6 @@
-import table from './modules/table';
+import {
+    table
+} from './modules/table';
 import modal from './modules/modal';
 import addWord from './modules/addWord';
 

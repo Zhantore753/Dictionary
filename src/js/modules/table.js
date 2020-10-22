@@ -2,9 +2,9 @@ import {
     getResource
 } from '../services/requests';
 
+let firstArr = [];
 const table = (wrapper) => {
-        let firstArr = [],
-            searchArr = [],
+        let searchArr = [],
             arr = [];
         getResource('http://localhost:3000/dictionary')
             .then(res => createCards(res))
@@ -95,4 +95,9 @@ const table = (wrapper) => {
         }
 };
 
-export default table;
+export {
+    table
+};
+export {
+    firstArr
+};
